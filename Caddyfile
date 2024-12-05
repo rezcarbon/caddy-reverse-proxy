@@ -15,41 +15,26 @@ https://infiniteminds.cc, https://app.infiniteminds.cc {
 
     # GCSBotService routing
     handle /gcs* {
-        reverse_proxy gcsbotservice.railway.internal {
-            fail_timeout 5s
-            fallback reverse_proxy gcsbotservice-finalproduction.up.railway.app:8080
-        }
+        reverse_proxy gcsbotservice.railway.internal fallback gcsbotservice-finalproduction.up.railway.app:8080
     }
 
     # SithSkillsService routing
     handle /skills* {
-        reverse_proxy sithskillsservice.railway.internal {
-            fail_timeout 5s
-            fallback reverse_proxy sithskillsservice-finalproduction.up.railway.app:8000
-        }
+        reverse_proxy sithskillsservice.railway.internal fallback sithskillsservice-finalproduction.up.railway.app:8000
     }
 
     # SithBotModeManagerService routing
     handle /mode* {
-        reverse_proxy sithbotmodemanagerservice.railway.internal {
-            fail_timeout 5s
-            fallback reverse_proxy sithbotmodemanagerservice-finalproduction.up.railway.app:8080
-        }
+        reverse_proxy sithbotmodemanagerservice.railway.internal fallback sithbotmodemanagerservice-finalproduction.up.railway.app:8080
     }
 
     # SithPythonServices routing
     handle /memory* {
-        reverse_proxy sithpythonservices.railway.internal {
-            fail_timeout 5s
-            fallback reverse_proxy sithpythonservices-finalproduction.up.railway.app:8000
-        }
+        reverse_proxy sithpythonservices.railway.internal fallback sithpythonservices-finalproduction.up.railway.app:8000
     }
 
     # SithGoServices routing
     handle /go* {
-        reverse_proxy sithgoservices.railway.internal {
-            fail_timeout 5s
-            fallback reverse_proxy sithgoservices-finalproduction.up.railway.app:8080
-        }
+        reverse_proxy sithgoservices.railway.internal fallback sithgoservices-finalproduction.up.railway.app:8080
     }
 }
