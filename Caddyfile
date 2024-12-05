@@ -1,0 +1,55 @@
+{
+    # Global options
+    admin off
+    email admin@infiniteminds.cc
+}
+
+# Redirect HTTP to HTTPS
+http://infiniteminds.cc, http://app.infiniteminds.cc {
+    redir https://{host}{uri}
+}
+
+# HTTPS Configuration
+https://infiniteminds.cc, https://app.infiniteminds.cc {
+    tls /ssl/infiniteminds.cc.pem /ssl/infiniteminds.cc.key
+
+    # GCSBotService routing
+    handle /gcs* {
+        reverse_proxy gcsbotservice.railway.internal {
+            fail_timeout 5s
+            fallback reverse_proxy gcsbotservice-finalproduction.up.railway.app:8080
+        }
+    }
+
+    # SithSkillsService routing
+    handle /skills* {
+        reverse_proxy sithskillsservice.railway.internal {
+            fail_timeout 5s
+            fallback reverse_proxy sithskillsservice-finalproduction.up.railway.app:8000
+        }
+    }
+
+    # SithBotModeManagerService routing
+    handle /mode* {
+        reverse_proxy sithbotmodemanagerservice.railway.internal {
+            fail_timeout 5s
+            fallback reverse_proxy sithbotmodemanagerservice-finalproduction.up.railway.app:8080
+        }
+    }
+
+    # SithPythonServices routing
+    handle /memory* {
+        reverse_proxy sithpythonservices.railway.internal {
+            fail_timeout 5s
+            fallback reverse_proxy sithpythonservices-finalproduction.up.railway.app:8000
+        }
+    }
+
+    # SithGoServices routing
+    handle /go* {
+        reverse_proxy sithgoservices.railway.internal {
+            fail_timeout 5s
+            fallback reverse_proxy sithgoservices-finalproduction.up.railway.app:8080
+        }
+    }
+}
