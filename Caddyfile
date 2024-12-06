@@ -63,8 +63,6 @@ https://infiniteminds.cc, https://app.infiniteminds.cc {
             transport http {
                 tls_insecure_skip_verify
             }
-            health_timeout 5s
-            retries 3
         }
     }
 
@@ -81,8 +79,6 @@ https://infiniteminds.cc, https://app.infiniteminds.cc {
             transport http {
                 tls_insecure_skip_verify
             }
-            health_timeout 5s
-            retries 3
         }
     }
 
