@@ -49,9 +49,11 @@ https://infiniteminds.cc, https://app.infiniteminds.cc {
 
     # SithBotModeManagerService routing
     handle /mode* {
-        reverse_proxy sithbotmodemanagerservice.railway.internal sithbotmodemanagerservice-finalproduction.up.railway.app:8080 {
+        reverse_proxy {
+            to sithbotmodemanagerservice.railway.internal
+            to sithbotmodemanagerservice-finalproduction.up.railway.app:8080
             transport http {
-                tls_insecure_skip_verify false
+                tls_insecure_skip_verify
             }
         }
     }
@@ -63,9 +65,11 @@ https://infiniteminds.cc, https://app.infiniteminds.cc {
 
     # SithGoServices routing
     handle /go* {
-        reverse_proxy sithgoservices.railway.internal sithgoservices-finalproduction.up.railway.app:8080 {
+        reverse_proxy {
+            to sithgoservices.railway.internal
+            to sithgoservices-finalproduction.up.railway.app:8080
             transport http {
-                tls_insecure_skip_verify false
+                tls_insecure_skip_verify
             }
         }
     }
