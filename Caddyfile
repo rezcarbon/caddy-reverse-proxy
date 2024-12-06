@@ -19,39 +19,37 @@ https://infiniteminds.cc, https://app.infiniteminds.cc {
 
     # AWSBotService routing
     handle /s3* {
-        reverse_proxy awsbotservice.railway.internal fallback awsbotservice-finalproduction.up.railway.app:8080
+        reverse_proxy awsbotservice.railway.internal awsbotservice-finalproduction.up.railway.app:8080
     }
 
     # Go Service routing
     handle /skills* {
-        reverse_proxy go-service.railway.internal fallback go-service-finalproduction.up.railway.app:8080
+        reverse_proxy go-service.railway.internal go-service-finalproduction.up.railway.app:8080
     }
 
     handle /db-supported-skills* {
-        reverse_proxy go-service.railway.internal fallback go-service-finalproduction.up.railway.app:8080
+        reverse_proxy go-service.railway.internal go-service-finalproduction.up.railway.app:8080
     }
 
     handle /add-skill* {
-        reverse_proxy go-service.railway.internal fallback go-service-finalproduction.up.railway.app:8080
+        reverse_proxy go-service.railway.internal go-service-finalproduction.up.railway.app:8080
     }
 
     handle /supported-skills* {
-        reverse_proxy go-service.railway.internal fallback go-service-finalproduction.up.railway.app:8080
+        reverse_proxy go-service.railway.internal go-service-finalproduction.up.railway.app:8080
     }
 
     handle /skills/search* {
-        reverse_proxy go-service.railway.internal fallback go-service-finalproduction.up.railway.app:8080
+        reverse_proxy go-service.railway.internal go-service-finalproduction.up.railway.app:8080
     }
 
     handle /health {
-        reverse_proxy go-service.railway.internal fallback go-service-finalproduction.up.railway.app:8080
+        reverse_proxy go-service.railway.internal go-service-finalproduction.up.railway.app:8080
     }
 
     # SithBotModeManagerService routing
     handle /mode* {
-        reverse_proxy {
-            to sithbotmodemanagerservice.railway.internal
-            fallback sithbotmodemanagerservice-finalproduction.up.railway.app:8080
+        reverse_proxy sithbotmodemanagerservice.railway.internal sithbotmodemanagerservice-finalproduction.up.railway.app:8080 {
             transport http {
                 tls_insecure_skip_verify false
             }
@@ -60,14 +58,12 @@ https://infiniteminds.cc, https://app.infiniteminds.cc {
 
     # SithPythonServices routing
     handle /memory* {
-        reverse_proxy sithpythonservices.railway.internal fallback sithpythonservices-finalproduction.up.railway.app:8000
+        reverse_proxy sithpythonservices.railway.internal sithpythonservices-finalproduction.up.railway.app:8000
     }
 
     # SithGoServices routing
     handle /go* {
-        reverse_proxy {
-            to sithgoservices.railway.internal
-            fallback sithgoservices-finalproduction.up.railway.app:8080
+        reverse_proxy sithgoservices.railway.internal sithgoservices-finalproduction.up.railway.app:8080 {
             transport http {
                 tls_insecure_skip_verify false
             }
