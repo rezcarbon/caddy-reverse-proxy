@@ -15,7 +15,7 @@ https://infiniteminds.cc, https://app.infiniteminds.cc {
 
     # GCSBotService routing
     handle /gcs* {
-        reverse_proxy gcsbotservice.railway.internal fallback gcsbotservice-finalproduction.up.railway.app:8000
+        reverse_proxy gcsbotservice.railway.internal fallback gcsbotservice-finalproduction.up.railway.app:8080
     }
 
     # Go Service routing
