@@ -18,7 +18,7 @@ https://infiniteminds.cc, https://app.infiniteminds.cc {
         reverse_proxy gcsbotservice.railway.internal fallback gcsbotservice-finalproduction.up.railway.app:8080
     }
 
-    # New Go Service routing (replacing SithSkillsService)
+    # Go Service routing
     handle /skills* {
         reverse_proxy go-service.railway.internal fallback go-service-finalproduction.up.railway.app:8080
     }
@@ -28,10 +28,6 @@ https://infiniteminds.cc, https://app.infiniteminds.cc {
     }
 
     handle /add-skill* {
-        reverse_proxy go-service.railway.internal fallback go-service-finalproduction.up.railway.app:8080
-    }
-
-    handle /process-task* {
         reverse_proxy go-service.railway.internal fallback go-service-finalproduction.up.railway.app:8080
     }
 
