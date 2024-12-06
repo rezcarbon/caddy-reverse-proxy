@@ -13,9 +13,9 @@ http://infiniteminds.cc, http://app.infiniteminds.cc {
 https://infiniteminds.cc, https://app.infiniteminds.cc {
     tls /ssl/infiniteminds.cc.pem /ssl/infiniteminds.cc.key
 
-    # GCSBotService routing
-    handle /gcs* {
-        reverse_proxy gcsbotservice.railway.internal fallback gcsbotservice-finalproduction.up.railway.app:8080
+    # AWSBotService routing
+    handle /s3* {
+        reverse_proxy awsbotservice.railway.internal fallback awsbotservice-finalproduction.up.railway.app:8080
     }
 
     # Go Service routing
