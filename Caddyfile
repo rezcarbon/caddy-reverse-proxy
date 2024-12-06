@@ -1,82 +1,82 @@
 {
-    # Global options
-    admin off
-    email admin@infiniteminds.cc
-    log {
-        output file /var/log/caddy_access.log
-        level info
-    }
+	# Global options
+	admin off
+	email admin@infiniteminds.cc
+	log {
+		output file /var/log/caddy_access.log
+		level info
+	}
 }
 
 # Redirect HTTP to HTTPS
 http://infiniteminds.cc, http://app.infiniteminds.cc {
-    redir https://{host}{uri}
+	redir https://{host}{uri}
 }
 
 # HTTPS Configuration
 https://infiniteminds.cc, https://app.infiniteminds.cc {
-    tls /ssl/infiniteminds.cc.pem /ssl/infiniteminds.cc.key
+	tls /ssl/infiniteminds.cc.pem /ssl/infiniteminds.cc.key
 
-    # AWSBotService routing
-    handle /s3* {
-        reverse_proxy awsbotservice.railway.internal awsbotservice-finalproduction.up.railway.app:8080
-    }
+	# AWSBotService routing
+	handle /s3* {
+		reverse_proxy awsbotservice.railway.internal awsbotservice-finalproduction.up.railway.app:8080
+	}
 
-    # Go Service routing
-    handle /skills* {
-        reverse_proxy go-service.railway.internal go-service-finalproduction.up.railway.app:8080
-    }
+	# Go Service routing
+	handle /skills* {
+		reverse_proxy go-service.railway.internal go-service-finalproduction.up.railway.app:8080
+	}
 
-    handle /db-supported-skills* {
-        reverse_proxy go-service.railway.internal go-service-finalproduction.up.railway.app:8080
-    }
+	handle /db-supported-skills* {
+		reverse_proxy go-service.railway.internal go-service-finalproduction.up.railway.app:8080
+	}
 
-    handle /add-skill* {
-        reverse_proxy go-service.railway.internal go-service-finalproduction.up.railway.app:8080
-    }
+	handle /add-skill* {
+		reverse_proxy go-service.railway.internal go-service-finalproduction.up.railway.app:8080
+	}
 
-    handle /supported-skills* {
-        reverse_proxy go-service.railway.internal go-service-finalproduction.up.railway.app:8080
-    }
+	handle /supported-skills* {
+		reverse_proxy go-service.railway.internal go-service-finalproduction.up.railway.app:8080
+	}
 
-    handle /skills/search* {
-        reverse_proxy go-service.railway.internal go-service-finalproduction.up.railway.app:8080
-    }
+	handle /skills/search* {
+		reverse_proxy go-service.railway.internal go-service-finalproduction.up.railway.app:8080
+	}
 
-    handle /health {
-        reverse_proxy go-service.railway.internal go-service-finalproduction.up.railway.app:8080
-    }
+	handle /health {
+		reverse_proxy go-service.railway.internal go-service-finalproduction.up.railway.app:8080
+	}
 
-    # SithBotModeManagerService routing
-    handle /mode* {
-        reverse_proxy {
-            to sithbotmodemanagerservice.railway.internal
-            to sithbotmodemanagerservice-finalproduction.up.railway.app:8080
-            transport http {
-                tls_insecure_skip_verify
-            }
-        }
-    }
+	# SithBotModeManagerService routing
+	handle /mode* {
+		reverse_proxy {
+			to sithbotmodemanagerservice.railway.internal
+			to sithbotmodemanagerservice-finalproduction.up.railway.app:8080
+			transport http {
+				tls_insecure_skip_verify
+			}
+		}
+	}
 
-    # SithPythonServices routing
-    handle /memory* {
-        reverse_proxy sithpythonservices.railway.internal sithpythonservices-finalproduction.up.railway.app:8000
-    }
+	# SithPythonServices routing
+	handle /memory* {
+		reverse_proxy sithpythonservices.railway.internal sithpythonservices-finalproduction.up.railway.app:8000
+	}
 
-    # SithGoServices routing
-    handle /go* {
-        reverse_proxy {
-            to sithgoservices.railway.internal
-            to sithgoservices-finalproduction.up.railway.app:8080
-            transport http {
-                tls_insecure_skip_verify
-            }
-        }
-    }
+	# SithGoServices routing
+	handle /go* {
+		reverse_proxy {
+			to sithgoservices.railway.internal
+			to sithgoservices-finalproduction.up.railway.app:8080
+			transport http {
+				tls_insecure_skip_verify
+			}
+		}
+	}
 
-    # Error handling
-    handle_errors {
-        rewrite * /error.html
-        file_server
-    }
+	# Error handling
+	handle_errors {
+		rewrite * /error.html
+		file_server
+	}
 }
