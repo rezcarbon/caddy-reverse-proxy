@@ -2,6 +2,10 @@
     # Global options
     admin off
     email admin@infiniteminds.cc
+    log {
+        output file /var/log/caddy_access.log
+        level info
+    }
 }
 
 # Redirect HTTP to HTTPS
@@ -45,7 +49,12 @@ https://infiniteminds.cc, https://app.infiniteminds.cc {
 
     # SithBotModeManagerService routing
     handle /mode* {
-        reverse_proxy sithbotmodemanagerservice.railway.internal fallback sithbotmodemanagerservice-finalproduction.up.railway.app:8080
+        reverse_proxy {
+            to sithbotmodemanagerservice.railway.internal fallback sithbotmodemanagerservice-finalproduction.up.railway.app:8080
+            transport http {
+                tls_insecure_skip_verify false
+            }
+        }
     }
 
     # SithPythonServices routing
@@ -56,5 +65,11 @@ https://infiniteminds.cc, https://app.infiniteminds.cc {
     # SithGoServices routing
     handle /go* {
         reverse_proxy sithgoservices.railway.internal fallback sithgoservices-finalproduction.up.railway.app:8080
+    }
+
+    # Error handling
+    handle_errors {
+        rewrite * /error.html
+        file_server
     }
 }
