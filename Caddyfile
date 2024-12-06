@@ -25,11 +25,7 @@ https://infiniteminds.cc, https://app.infiniteminds.cc {
 
     # SithBotModeManagerService routing
     handle /mode* {
-<<<<<<< HEAD
         reverse_proxy sithbotmodemanagerservice.railway.internal fallback sithbotmodemanagerservice-finalproduction.up.railway.app:8000
-=======
-        reverse_proxy sithbotmodemanagerservice.railway.internal fallback sithbotmodemanagerservice-finalproduction.up.railway.app:8080
->>>>>>> a5725fed528fdcb2cabcf00cc1c6ed944738df12
     }
 
     # SithPythonServices routing
