@@ -50,7 +50,8 @@ https://infiniteminds.cc, https://app.infiniteminds.cc {
     # SithBotModeManagerService routing
     handle /mode* {
         reverse_proxy {
-            to sithbotmodemanagerservice.railway.internal fallback sithbotmodemanagerservice-finalproduction.up.railway.app:8080
+            to sithbotmodemanagerservice.railway.internal
+            fallback sithbotmodemanagerservice-finalproduction.up.railway.app:8080
             transport http {
                 tls_insecure_skip_verify false
             }
@@ -64,7 +65,13 @@ https://infiniteminds.cc, https://app.infiniteminds.cc {
 
     # SithGoServices routing
     handle /go* {
-        reverse_proxy sithgoservices.railway.internal fallback sithgoservices-finalproduction.up.railway.app:8080
+        reverse_proxy {
+            to sithgoservices.railway.internal
+            fallback sithgoservices-finalproduction.up.railway.app:8080
+            transport http {
+                tls_insecure_skip_verify false
+            }
+        }
     }
 
     # Error handling
