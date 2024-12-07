@@ -30,39 +30,67 @@ https://infiniteminds.cc, https://app.infiniteminds.cc {
 
     # AWSBotService routing
     handle /s3* {
-        reverse_proxy awsbotservice.railway.internal awsbotservice-finalproduction.up.railway.app:8080
+        reverse_proxy https://awsbotservice.railway.internal https://awsbotservice-finalproduction.up.railway.app:8080 {
+            transport http {
+                tls_insecure_skip_verify
+            }
+        }
     }
 
     # Go Service routing
     handle /skills* {
-        reverse_proxy go-service.railway.internal go-service-finalproduction.up.railway.app:8080
+        reverse_proxy https://go-service.railway.internal https://go-service-finalproduction.up.railway.app:8080 {
+            transport http {
+                tls_insecure_skip_verify
+            }
+        }
     }
 
     handle /db-supported-skills* {
-        reverse_proxy go-service.railway.internal go-service-finalproduction.up.railway.app:8080
+        reverse_proxy https://go-service.railway.internal https://go-service-finalproduction.up.railway.app:8080 {
+            transport http {
+                tls_insecure_skip_verify
+            }
+        }
     }
 
     handle /add-skill* {
-        reverse_proxy go-service.railway.internal go-service-finalproduction.up.railway.app:8080
+        reverse_proxy https://go-service.railway.internal https://go-service-finalproduction.up.railway.app:8080 {
+            transport http {
+                tls_insecure_skip_verify
+            }
+        }
     }
 
     handle /supported-skills* {
-        reverse_proxy go-service.railway.internal go-service-finalproduction.up.railway.app:8080
+        reverse_proxy https://go-service.railway.internal https://go-service-finalproduction.up.railway.app:8080 {
+            transport http {
+                tls_insecure_skip_verify
+            }
+        }
     }
 
     handle /skills/search* {
-        reverse_proxy go-service.railway.internal go-service-finalproduction.up.railway.app:8080
+        reverse_proxy https://go-service.railway.internal https://go-service-finalproduction.up.railway.app:8080 {
+            transport http {
+                tls_insecure_skip_verify
+            }
+        }
     }
 
     handle /health {
-        reverse_proxy go-service.railway.internal go-service-finalproduction.up.railway.app:8080
+        reverse_proxy https://go-service.railway.internal https://go-service-finalproduction.up.railway.app:8080 {
+            transport http {
+                tls_insecure_skip_verify
+            }
+        }
     }
 
     # SithBotModeManagerService routing
     handle /mode* {
         reverse_proxy {
-            to sithbotmodemanagerservice.railway.internal
-            to sithbotmodemanagerservice-finalproduction.up.railway.app:8080
+            to https://sithbotmodemanagerservice.railway.internal
+            to https://sithbotmodemanagerservice-finalproduction.up.railway.app:8080
             transport http {
                 tls_insecure_skip_verify
             }
@@ -71,14 +99,18 @@ https://infiniteminds.cc, https://app.infiniteminds.cc {
 
     # SithPythonServices routing
     handle /memory* {
-        reverse_proxy sithpythonservices.railway.internal sithpythonservices-finalproduction.up.railway.app:8000
+        reverse_proxy https://sithpythonservices.railway.internal https://sithpythonservices-finalproduction.up.railway.app:8000 {
+            transport http {
+                tls_insecure_skip_verify
+            }
+        }
     }
 
     # SithGoServices routing
     handle /go* {
         reverse_proxy {
-            to sithgoservices.railway.internal
-            to sithgoservices-finalproduction.up.railway.app:8080
+            to https://sithgoservices.railway.internal
+            to https://sithgoservices-finalproduction.up.railway.app:8080
             transport http {
                 tls_insecure_skip_verify
             }
