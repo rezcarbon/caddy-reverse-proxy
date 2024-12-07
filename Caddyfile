@@ -1,24 +1,22 @@
 {
-    # Global options
+    auto_https off  # Disable Caddy's HTTPS, as Cloudflare manages it
     admin off
     email admin@infiniteminds.cc
-    auto_https enable_redirects  # Automatically handle HTTPS redirects
     log {
         output file /var/log/caddy_access.log
         level info
     }
 }
 
-# Redirect all HTTP requests to HTTPS
-http:// {
+# Redirect HTTP to HTTPS via Cloudflare
+http://infiniteminds.cc, http://app.infiniteminds.cc {
     redir https://{host}{uri}
 }
 
-# HTTPS Configuration
-https:// {
-    # Use Cloudflare for SSL certificate management
+# Proxy HTTPS requests (Cloudflare to Backend)
+https://infiniteminds.cc, https://app.infiniteminds.cc {
     tls {
-        on_demand  # Allow Cloudflare to handle SSL certificates dynamically
+        on_demand  # Let Cloudflare handle certificates
     }
 
     header {
@@ -39,31 +37,9 @@ https:// {
         reverse_proxy http://go-service.railway.internal:8080
     }
 
-    handle /db-supported-skills* {
-        reverse_proxy http://go-service.railway.internal:8080
-    }
-
-    handle /add-skill* {
-        reverse_proxy http://go-service.railway.internal:8080
-    }
-
-    handle /supported-skills* {
-        reverse_proxy http://go-service.railway.internal:8080
-    }
-
-    handle /skills/search* {
-        reverse_proxy http://go-service.railway.internal:8080
-    }
-
-    handle /health {
-        reverse_proxy http://go-service.railway.internal:8080
-    }
-
     # SithBotModeManagerService routing
     handle /mode* {
-        reverse_proxy {
-            to http://sithbotmodemanagerservice.railway.internal:8080
-        }
+        reverse_proxy http://sithbotmodemanagerservice.railway.internal:8080
     }
 
     # SithPythonServices routing
@@ -73,9 +49,7 @@ https:// {
 
     # SithGoServices routing
     handle /go* {
-        reverse_proxy {
-            to http://sithgoservices.railway.internal:8080
-        }
+        reverse_proxy http://sithgoservices.railway.internal:8080
     }
 
     # Static file serving
