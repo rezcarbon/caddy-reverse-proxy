@@ -29,27 +29,47 @@ https://infiniteminds.cc, https://app.infiniteminds.cc {
 
     # AWSBotService routing
     handle /s3* {
-        reverse_proxy http://awsbotservice.railway.internal:8080
+        reverse_proxy https://awsbotservice.railway.internal:443 {
+            transport http {
+                tls_insecure_skip_verify  # Use only if the backend uses self-signed certificates
+            }
+        }
     }
 
     # Go Service routing
     handle /skills* {
-        reverse_proxy http://go-service.railway.internal:8080
+        reverse_proxy https://go-service.railway.internal:443 {
+            transport http {
+                tls_insecure_skip_verify
+            }
+        }
     }
 
     # SithBotModeManagerService routing
     handle /mode* {
-        reverse_proxy http://sithbotmodemanagerservice.railway.internal:8080
+        reverse_proxy https://sithbotmodemanagerservice.railway.internal:443 {
+            transport http {
+                tls_insecure_skip_verify
+            }
+        }
     }
 
     # SithPythonServices routing
     handle /memory* {
-        reverse_proxy http://sithpythonservices.railway.internal:8000
+        reverse_proxy https://sithpythonservices.railway.internal:443 {
+            transport http {
+                tls_insecure_skip_verify
+            }
+        }
     }
 
     # SithGoServices routing
     handle /go* {
-        reverse_proxy http://sithgoservices.railway.internal:8080
+        reverse_proxy https://sithgoservices.railway.internal:443 {
+            transport http {
+                tls_insecure_skip_verify
+            }
+        }
     }
 
     # Static file serving
