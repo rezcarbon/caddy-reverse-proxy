@@ -1,7 +1,9 @@
+
 {
     # Global options
     admin off
     email admin@infiniteminds.cc
+    auto_https enable_redirects  # Added for better HTTPS handling
     log {
         output file /var/log/caddy_access.log
         level info
@@ -15,7 +17,10 @@ http://infiniteminds.cc, http://app.infiniteminds.cc {
 
 # HTTPS Configuration
 https://infiniteminds.cc, https://app.infiniteminds.cc {
-    tls /ssl/infiniteminds.cc.pem /ssl/infiniteminds.cc.key
+    tls /ssl/infiniteminds.cc.pem /ssl/infiniteminds.cc.key {
+        # Added fallback for certificate management
+        on_demand
+    }
 
     header {
         Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"
@@ -80,6 +85,12 @@ https://infiniteminds.cc, https://app.infiniteminds.cc {
                 tls_insecure_skip_verify
             }
         }
+    }
+
+    # Static file serving (added from new recommendations)
+    handle {
+        root * /var/www/html
+        file_server
     }
 
     # Error handling
