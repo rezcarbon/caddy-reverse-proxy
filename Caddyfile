@@ -2,22 +2,23 @@
     # Global options
     admin off
     email admin@infiniteminds.cc
+    auto_https enable_redirects  # Automatically handle HTTPS redirects
     log {
         output file /var/log/caddy_access.log
         level info
     }
 }
 
-# Redirect HTTP to HTTPS
-http://infiniteminds.cc, http://app.infiniteminds.cc {
+# Redirect all HTTP requests to HTTPS
+http:// {
     redir https://{host}{uri}
 }
 
 # HTTPS Configuration
-https://infiniteminds.cc, https://app.infiniteminds.cc {
-    tls /ssl/infiniteminds.cc.pem /ssl/infiniteminds.cc.key {
-        # Added fallback for certificate management
-        on_demand
+https:// {
+    # Use Cloudflare for SSL certificate management
+    tls {
+        on_demand  # Allow Cloudflare to handle SSL certificates dynamically
     }
 
     header {
@@ -30,90 +31,50 @@ https://infiniteminds.cc, https://app.infiniteminds.cc {
 
     # AWSBotService routing
     handle /s3* {
-        reverse_proxy https://awsbotservice.railway.internal https://awsbotservice-finalproduction.up.railway.app:8080 {
-            transport http {
-                tls_insecure_skip_verify
-            }
-        }
+        reverse_proxy http://awsbotservice.railway.internal:8080
     }
 
     # Go Service routing
     handle /skills* {
-        reverse_proxy https://go-service.railway.internal https://go-service-finalproduction.up.railway.app:8080 {
-            transport http {
-                tls_insecure_skip_verify
-            }
-        }
+        reverse_proxy http://go-service.railway.internal:8080
     }
 
     handle /db-supported-skills* {
-        reverse_proxy https://go-service.railway.internal https://go-service-finalproduction.up.railway.app:8080 {
-            transport http {
-                tls_insecure_skip_verify
-            }
-        }
+        reverse_proxy http://go-service.railway.internal:8080
     }
 
     handle /add-skill* {
-        reverse_proxy https://go-service.railway.internal https://go-service-finalproduction.up.railway.app:8080 {
-            transport http {
-                tls_insecure_skip_verify
-            }
-        }
+        reverse_proxy http://go-service.railway.internal:8080
     }
 
     handle /supported-skills* {
-        reverse_proxy https://go-service.railway.internal https://go-service-finalproduction.up.railway.app:8080 {
-            transport http {
-                tls_insecure_skip_verify
-            }
-        }
+        reverse_proxy http://go-service.railway.internal:8080
     }
 
     handle /skills/search* {
-        reverse_proxy https://go-service.railway.internal https://go-service-finalproduction.up.railway.app:8080 {
-            transport http {
-                tls_insecure_skip_verify
-            }
-        }
+        reverse_proxy http://go-service.railway.internal:8080
     }
 
     handle /health {
-        reverse_proxy https://go-service.railway.internal https://go-service-finalproduction.up.railway.app:8080 {
-            transport http {
-                tls_insecure_skip_verify
-            }
-        }
+        reverse_proxy http://go-service.railway.internal:8080
     }
 
     # SithBotModeManagerService routing
     handle /mode* {
         reverse_proxy {
-            to https://sithbotmodemanagerservice.railway.internal
-            to https://sithbotmodemanagerservice-finalproduction.up.railway.app:8080
-            transport http {
-                tls_insecure_skip_verify
-            }
+            to http://sithbotmodemanagerservice.railway.internal:8080
         }
     }
 
     # SithPythonServices routing
     handle /memory* {
-        reverse_proxy https://sithpythonservices.railway.internal https://sithpythonservices-finalproduction.up.railway.app:8000 {
-            transport http {
-                tls_insecure_skip_verify
-            }
-        }
+        reverse_proxy http://sithpythonservices.railway.internal:8000
     }
 
     # SithGoServices routing
     handle /go* {
         reverse_proxy {
-            to https://sithgoservices.railway.internal
-            to https://sithgoservices-finalproduction.up.railway.app:8080
-            transport http {
-                tls_insecure_skip_verify
-            }
+            to http://sithgoservices.railway.internal:8080
         }
     }
 
