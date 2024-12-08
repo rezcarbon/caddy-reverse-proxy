@@ -39,9 +39,9 @@ https://mindlink.cc, https://app.mindlink.cc {
         }
     }
 
-    # Go Service routing
+    # Skills Management Service routing
     handle /skills* {
-        reverse_proxy https://go-service.railway.internal:443 {
+        reverse_proxy https://sithskillsservice-finalproduction.up.railway.app {
             transport http {
                 tls_insecure_skip_verify
             }
