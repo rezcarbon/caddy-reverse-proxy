@@ -9,12 +9,12 @@
 }
 
 # Redirect HTTP to HTTPS
-http://infiniteminds.cc, http://app.infiniteminds.cc {
+http://mindlink.cc, http://app.mindlink.cc {
     redir https://{host}{uri} permanent
 }
 
 # HTTPS configurations
-https://infiniteminds.cc, https://app.infiniteminds.cc {
+https://mindlink.cc, https://app.mindlink.cc {
     tls {
         on_demand
     }
