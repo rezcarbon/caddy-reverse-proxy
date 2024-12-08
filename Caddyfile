@@ -1,5 +1,5 @@
 auto_https off  # Disable Caddy's HTTPS since Cloudflare manages it
-admin off
+# Removed admin off
 email admin@infiniteminds.cc
 log {
     output file /var/log/caddy_access.log
