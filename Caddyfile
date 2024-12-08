@@ -66,15 +66,6 @@ https://mindlink.cc, https://app.mindlink.cc {
         }
     }
 
-    # SithGoServices routing
-    handle /go* {
-        reverse_proxy https://sithgoservices.railway.internal:443 {
-            transport http {
-                tls_insecure_skip_verify
-            }
-        }
-    }
-
     # Static file serving
     handle {
         root * /var/www/html
