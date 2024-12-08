@@ -2,8 +2,9 @@
     auto_https off  # Disable automatic HTTPS since Cloudflare manages it
     admin off
     log {
-        output file /var/log/caddy_access.log
-        level info
+        output file /var/log/caddy_debug.log
+        format json
+        level debug
     }
 }
 
@@ -24,6 +25,9 @@ https://infiniteminds.cc, https://app.infiniteminds.cc {
         X-Frame-Options "DENY"
         Referrer-Policy "no-referrer-when-downgrade"
         Content-Security-Policy "default-src 'self'"
+        X-Forwarded-Proto {scheme}
+        X-Forwarded-For {remote_host}
+        Host {host}
     }
 
     # AWSBotService routing
