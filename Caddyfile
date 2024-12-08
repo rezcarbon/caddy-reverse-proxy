@@ -1,19 +1,17 @@
-{
-    auto_https off  # Disable Caddy's HTTPS, as Cloudflare manages it
-    admin off
-    email admin@infiniteminds.cc
-    log {
-        output file /var/log/caddy_access.log
-        level info
-    }
+auto_https off  # Disable Caddy's HTTPS since Cloudflare manages it
+admin off
+email admin@infiniteminds.cc
+log {
+    output file /var/log/caddy_access.log
+    level info
 }
 
-# Redirect HTTP to HTTPS via Cloudflare
+# Redirect HTTP to HTTPS
 http://infiniteminds.cc, http://app.infiniteminds.cc {
-    redir https://{host}{uri}
+    redir https://{host}{uri} permanent
 }
 
-# Proxy HTTPS requests (Cloudflare to Backend)
+# Proxy HTTPS requests
 https://infiniteminds.cc, https://app.infiniteminds.cc {
     tls {
         on_demand  # Let Cloudflare handle certificates
@@ -25,51 +23,34 @@ https://infiniteminds.cc, https://app.infiniteminds.cc {
         X-Frame-Options "DENY"
         Referrer-Policy "no-referrer-when-downgrade"
         Content-Security-Policy "default-src 'self'"
+        X-Forwarded-For {remote_host}
+        X-Forwarded-Proto {scheme}
+        Host {host}
     }
 
     # AWSBotService routing
     handle /s3* {
-        reverse_proxy https://awsbotservice.railway.internal:443 {
-            transport http {
-                tls_insecure_skip_verify  # Use only if the backend uses self-signed certificates
-            }
-        }
+        reverse_proxy https://awsbotservice.railway.internal:443
     }
 
     # Go Service routing
     handle /skills* {
-        reverse_proxy https://go-service.railway.internal:443 {
-            transport http {
-                tls_insecure_skip_verify
-            }
-        }
+        reverse_proxy https://go-service.railway.internal:443
     }
 
     # SithBotModeManagerService routing
     handle /mode* {
-        reverse_proxy https://sithbotmodemanagerservice.railway.internal:443 {
-            transport http {
-                tls_insecure_skip_verify
-            }
-        }
+        reverse_proxy https://sithbotmodemanagerservice.railway.internal:443
     }
 
     # SithPythonServices routing
     handle /memory* {
-        reverse_proxy https://sithpythonservices.railway.internal:443 {
-            transport http {
-                tls_insecure_skip_verify
-            }
-        }
+        reverse_proxy https://sithpythonservices.railway.internal:443
     }
 
     # SithGoServices routing
     handle /go* {
-        reverse_proxy https://sithgoservices.railway.internal:443 {
-            transport http {
-                tls_insecure_skip_verify
-            }
-        }
+        reverse_proxy https://sithgoservices.railway.internal:443
     }
 
     # Static file serving
