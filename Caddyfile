@@ -25,7 +25,7 @@ https://mindlink.cc, https://app.mindlink.cc {
         X-Frame-Options "DENY"
         Referrer-Policy "no-referrer-when-downgrade"
         Content-Security-Policy "default-src 'self'"
-        X-Forwarded-Proto {scheme}
+        X-Forwarded-Proto "https"  # Force HTTPS in the header
         X-Forwarded-For {remote_host}
         Host {host}
     }
