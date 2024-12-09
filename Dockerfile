@@ -1,21 +1,16 @@
-# Use the official Caddy base image
+# Base image with minimal dependencies
 FROM caddy:alpine
 
-# Set the working directory
+# Set working directory
 WORKDIR /srv
 
-# Copy the Caddyfile into the container
+# Copy the custom-built Caddy binary
+COPY ./caddy.exe /usr/bin/caddy
+
+# Copy the Caddyfile
 COPY Caddyfile /etc/caddy/Caddyfile
 
-# Ensure certificates are securely written from environment variables
-# and permissions are restricted
-RUN mkdir -p /app && \
-    chmod 700 /app && \
-    echo "$CLOUDFLARE_CERT" > /app/cloudflare-origin.pem && \
-    echo "$CLOUDFLARE_KEY" > /app/cloudflare-key.pem && \
-    chmod 600 /app/cloudflare-origin.pem /app/cloudflare-key.pem
-
-# Expose the default Caddy ports (80 and 443)
+# Expose HTTP and HTTPS ports
 EXPOSE 80
 EXPOSE 443
 
