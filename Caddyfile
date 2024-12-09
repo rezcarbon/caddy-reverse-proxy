@@ -1,5 +1,4 @@
 {
-    auto_https off  # Disable automatic HTTPS since Cloudflare manages it
     admin off
     log {
         output file /var/log/caddy_debug.log
