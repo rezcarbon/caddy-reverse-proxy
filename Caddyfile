@@ -8,17 +8,22 @@
     }
 }
 
-# Redirect HTTP to HTTPS, except for ACME challenge
+# Handle HTTP requests
 http://mindlink.cc, http://app.mindlink.cc {
-    route /.well-known/acme-challenge/* {
+    # Handle ACME challenge requests (Let’s Encrypt)
+    handle /.well-known/acme-challenge/* {
         root * /var/www/acme-challenges
         file_server
     }
 
-    redir https://{host}{uri} permanent
+    # Redirect all other HTTP requests to HTTPS
+    @notAcmeChallenge {
+        not path /.well-known/acme-challenge/*
+    }
+    redir @notAcmeChallenge https://{host}{uri} permanent
 }
 
-# HTTPS configurations
+# HTTPS configuration
 https://mindlink.cc, https://app.mindlink.cc {
     # Properly set HTTP headers
     header {
@@ -30,7 +35,7 @@ https://mindlink.cc, https://app.mindlink.cc {
         Permissions-Policy "geolocation=(), microphone=()"
     }
 
-    # ACME challenge handling for HTTPS
+    # Handle ACME challenge requests (Let’s Encrypt)
     handle /.well-known/acme-challenge/* {
         root * /var/www/acme-challenges
         file_server
