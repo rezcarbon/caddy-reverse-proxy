@@ -24,6 +24,14 @@ http://mindlink.cc, http://app.mindlink.cc {
 
 # HTTPS configuration
 https://mindlink.cc, https://app.mindlink.cc {
+    # Specify Cloudflare Origin Certificate and Private Key from environment variables
+    tls {
+        cert_file /app/cloudflare-origin.pem
+        key_file /app/cloudflare-key.pem
+        env_cert_file CLOUDFLARE_CERT
+        env_key_file CLOUDFLARE_KEY
+    }
+
     # Set HTTP headers
     header {
         Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"
