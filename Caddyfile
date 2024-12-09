@@ -58,7 +58,7 @@ https://mindlink.cc, https://app.mindlink.cc {
 
     # SithBotModeManagerService routing
     handle /mode* {
-        reverse_proxy https://sithbotmodemanagerservice.railway.internal:443 {
+        reverse_proxy http://sithbotmodemanagerservice.railway.internal {  # Changed to HTTP to prevent redirect loops
             transport http {
                 tls_insecure_skip_verify
             }
