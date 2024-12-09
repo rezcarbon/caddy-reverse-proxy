@@ -8,8 +8,13 @@
     }
 }
 
-# Redirect HTTP to HTTPS
+# Redirect HTTP to HTTPS, except for ACME challenge
 http://mindlink.cc, http://app.mindlink.cc {
+    route /.well-known/acme-challenge/* {
+        root * /var/www/acme-challenges
+        file_server
+    }
+
     redir https://{host}{uri} permanent
 }
 
@@ -28,6 +33,12 @@ https://mindlink.cc, https://app.mindlink.cc {
         X-Forwarded-Proto "https"  # Force HTTPS in the header
         X-Forwarded-For {remote_host}
         Host {host}
+    }
+
+    # ACME challenge handling for HTTPS
+    handle /.well-known/acme-challenge/* {
+        root * /var/www/acme-challenges
+        file_server
     }
 
     # AWSBotService routing
