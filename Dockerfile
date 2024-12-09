@@ -1,27 +1,21 @@
-# Use Alpine Linux as the base image
+# Use a minimal base image
 FROM alpine:latest
 
-# Install required dependencies
-RUN apk add --no-cache \
-    ca-certificates \
-    curl \
-    libc6-compat # Ensure compatibility for some Go binaries
+# Install dependencies
+RUN apk add --no-cache ca-certificates curl
 
-# Ensure permissions for the binary
-RUN mkdir -p /usr/bin && chmod +x /usr/bin
-
-# Copy the custom-built Caddy binary
+# Copy the Linux-compatible binary
 COPY ./caddy /usr/bin/caddy
 
-# Copy the Caddyfile configuration
+# Copy the Caddyfile
 COPY ./Caddyfile /etc/caddy/Caddyfile
 
-# Ensure execute permissions for the Caddy binary
+# Grant execute permissions
 RUN chmod +x /usr/bin/caddy
 
-# Expose HTTP and HTTPS ports
+# Expose ports
 EXPOSE 80
 EXPOSE 443
 
-# Default command to run Caddy
+# Run Caddy
 CMD ["/usr/bin/caddy", "run", "--config", "/etc/caddy/Caddyfile", "--adapter", "caddyfile"]
