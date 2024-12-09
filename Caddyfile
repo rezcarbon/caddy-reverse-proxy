@@ -8,9 +8,9 @@
     }
 }
 
-# Handle HTTP requests
+# HTTP requests handling
 http://mindlink.cc, http://app.mindlink.cc {
-    # Handle ACME challenge requests (Let’s Encrypt)
+    # Handle ACME challenge requests
     handle /.well-known/acme-challenge/* {
         root * /var/www/acme-challenges
         file_server
@@ -25,7 +25,7 @@ http://mindlink.cc, http://app.mindlink.cc {
 
 # HTTPS configuration
 https://mindlink.cc, https://app.mindlink.cc {
-    # Properly set HTTP headers
+    # Set HTTP headers
     header {
         Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"
         X-Content-Type-Options "nosniff"
@@ -35,7 +35,7 @@ https://mindlink.cc, https://app.mindlink.cc {
         Permissions-Policy "geolocation=(), microphone=()"
     }
 
-    # Handle ACME challenge requests (Let’s Encrypt)
+    # Handle ACME challenge requests
     handle /.well-known/acme-challenge/* {
         root * /var/www/acme-challenges
         file_server
