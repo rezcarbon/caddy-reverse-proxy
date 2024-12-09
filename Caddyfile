@@ -20,10 +20,7 @@ http://mindlink.cc, http://app.mindlink.cc {
 
 # HTTPS configurations
 https://mindlink.cc, https://app.mindlink.cc {
-    tls {
-        on_demand
-    }
-
+    # No TLS configuration because Cloudflare manages HTTPS externally
     header {
         Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"
         X-Content-Type-Options "nosniff"
