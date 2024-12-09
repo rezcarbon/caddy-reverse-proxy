@@ -50,6 +50,8 @@ https://mindlink.cc, https://app.mindlink.cc {
     # Skills Management Service routing
     handle /skills* {
         reverse_proxy https://sithskillsservice-finalproduction.up.railway.app {
+            header_up Host sithskillsservice-finalproduction.up.railway.app
+            header_up X-Forwarded-Proto https
             transport http {
                 tls_insecure_skip_verify
             }
@@ -58,7 +60,9 @@ https://mindlink.cc, https://app.mindlink.cc {
 
     # SithBotModeManagerService routing
     handle /mode* {
-        reverse_proxy http://sithbotmodemanagerservice.railway.internal {  # Changed to HTTP to prevent redirect loops
+        reverse_proxy https://sithbotmodemanagerservice-finalproduction.up.railway.app {
+            header_up Host sithbotmodemanagerservice-finalproduction.up.railway.app
+            header_up X-Forwarded-Proto https
             transport http {
                 tls_insecure_skip_verify
             }
@@ -68,6 +72,8 @@ https://mindlink.cc, https://app.mindlink.cc {
     # SithPythonServices routing
     handle /memory* {
         reverse_proxy https://sithpythonservices.railway.internal:443 {
+            header_up Host sithpythonservices.railway.internal
+            header_up X-Forwarded-Proto https
             transport http {
                 tls_insecure_skip_verify
             }
