@@ -4,7 +4,7 @@
     log {
         output file /var/log/caddy_debug.log
         format json
-        level debug  # Enhanced debugging level for detailed logs
+        level debug
     }
 }
 
@@ -15,27 +15,20 @@ http://mindlink.cc, http://app.mindlink.cc {
         file_server
     }
 
-    redir https://{host}{uri} permanent  # Redirect all other traffic to HTTPS
+    redir https://{host}{uri} permanent
 }
 
 # HTTPS configurations
 https://mindlink.cc, https://app.mindlink.cc {
-    # Define reusable security headers
-    @secure_headers {
+    # Properly set HTTP headers
+    header {
         Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"
         X-Content-Type-Options "nosniff"
         X-Frame-Options "DENY"
         Referrer-Policy "no-referrer-when-downgrade"
         Content-Security-Policy "default-src 'self'"
-        Permissions-Policy "geolocation=(), microphone=(), camera=()"
-        X-XSS-Protection "1; mode=block"
-        X-Forwarded-Proto "https"  # Force HTTPS in the header
-        X-Forwarded-For {remote_host}
-        Host {host}
+        Permissions-Policy "geolocation=(), microphone=()"
     }
-
-    # Apply security headers
-    header @secure_headers
 
     # ACME challenge handling for HTTPS
     handle /.well-known/acme-challenge/* {
@@ -43,45 +36,41 @@ https://mindlink.cc, https://app.mindlink.cc {
         file_server
     }
 
-    # AWSBotService routing
+    # Reverse Proxy for services
     handle /s3* {
         reverse_proxy https://awsbotservice.railway.internal:443 {
-            header_up X-Forwarded-Proto "https"
             transport http {
-                tls_insecure_skip_verify  # Use with caution in production
+                tls_insecure_skip_verify
             }
         }
     }
 
-    # Skills Management Service routing
     handle /skills* {
         reverse_proxy https://sithskillsservice-finalproduction.up.railway.app {
-            header_up Host "sithskillsservice-finalproduction.up.railway.app"
-            header_up X-Forwarded-Proto "https"
+            header_up Host sithskillsservice-finalproduction.up.railway.app
+            header_up X-Forwarded-Proto https
             transport http {
-                tls_insecure_skip_verify  # Use trusted certs in production
+                tls_insecure_skip_verify
             }
         }
     }
 
-    # SithBotModeManagerService routing
     handle /mode* {
         reverse_proxy https://sithbotmodemanagerservice-finalproduction.up.railway.app {
-            header_up Host "sithbotmodemanagerservice-finalproduction.up.railway.app"
-            header_up X-Forwarded-Proto "https"
+            header_up Host sithbotmodemanagerservice-finalproduction.up.railway.app
+            header_up X-Forwarded-Proto https
             transport http {
-                tls_insecure_skip_verify  # Use secure certs in production
+                tls_insecure_skip_verify
             }
         }
     }
 
-    # SithPythonServices routing
     handle /memory* {
         reverse_proxy https://sithpythonservices.railway.internal:443 {
-            header_up Host "sithpythonservices.railway.internal"
-            header_up X-Forwarded-Proto "https"
+            header_up Host sithpythonservices.railway.internal
+            header_up X-Forwarded-Proto https
             transport http {
-                tls_insecure_skip_verify  # Replace with valid certs in production
+                tls_insecure_skip_verify
             }
         }
     }
