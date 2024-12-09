@@ -1,19 +1,28 @@
 # Use a minimal base image
 FROM alpine:latest
 
-# Install dependencies
+# Install necessary dependencies
 RUN apk add --no-cache ca-certificates curl
 
-# Copy the Linux-compatible binary
+# Set up working directory
+WORKDIR /app
+
+# Write Cloudflare certificate and key from environment variables
+RUN mkdir -p /app && \
+    echo "$CLOUDFLARE_CERT" > /app/cloudflare-origin.pem && \
+    echo "$CLOUDFLARE_KEY" > /app/cloudflare-key.pem && \
+    chmod 600 /app/cloudflare-origin.pem /app/cloudflare-key.pem
+
+# Copy the Linux-compatible Caddy binary
 COPY ./caddy /usr/bin/caddy
+
+# Grant execute permissions to the binary
+RUN chmod +x /usr/bin/caddy
 
 # Copy the Caddyfile
 COPY ./Caddyfile /etc/caddy/Caddyfile
 
-# Grant execute permissions
-RUN chmod +x /usr/bin/caddy
-
-# Expose ports
+# Expose HTTP and HTTPS ports
 EXPOSE 80
 EXPOSE 443
 

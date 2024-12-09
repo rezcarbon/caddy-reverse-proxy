@@ -24,15 +24,8 @@ http://mindlink.cc, http://app.mindlink.cc {
 
 # HTTPS configuration
 https://mindlink.cc, https://app.mindlink.cc {
-    # Specify Cloudflare Origin Certificate and Private Key
-    tls {
-        certificate_pem {
-            env CLOUDFLARE_CERT
-        }
-        private_key_pem {
-            env CLOUDFLARE_KEY
-        }
-    }
+    # Use Cloudflare Origin Certificate and Private Key from environment variables
+    tls /app/cloudflare-origin.pem /app/cloudflare-key.pem
 
     # Set HTTP headers
     header {
