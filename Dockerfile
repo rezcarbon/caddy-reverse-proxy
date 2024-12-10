@@ -22,6 +22,9 @@ RUN chmod +x /usr/bin/caddy
 # Copy the Caddyfile
 COPY ./Caddyfile /etc/caddy/Caddyfile
 
+# Set default environment variables (optional)# Set default environment variables
+ENV PORT 8080  # Default port if not provided by Railway
+
 # Expose HTTP and HTTPS ports
 EXPOSE 80
 EXPOSE 443

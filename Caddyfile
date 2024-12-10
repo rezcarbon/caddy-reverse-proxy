@@ -45,15 +45,17 @@ https://mindlink.cc, https://app.mindlink.cc {
 
     # Reverse Proxy for services
     handle /s3* {
-        reverse_proxy https://awsbotservice.railway.internal:443 {
-            transport http {
+        reverse_proxy http://awsbotservice-finalproduction.up.railway.app {
+            header_up Host awsbotservice-finalproduction.up.railway.app
+            header_up X-Forwarded-Proto https
+			transport http {
                 tls_insecure_skip_verify
             }
         }
     }
 
     handle /skills* {
-        reverse_proxy https://sithskillsservice-finalproduction.up.railway.app {
+        reverse_proxy http://sithskillsservice-finalproduction.up.railway.app {
             header_up Host sithskillsservice-finalproduction.up.railway.app
             header_up X-Forwarded-Proto https
             transport http {
@@ -63,7 +65,7 @@ https://mindlink.cc, https://app.mindlink.cc {
     }
 
     handle /mode* {
-        reverse_proxy https://sithbotmodemanagerservice-finalproduction.up.railway.app {
+        reverse_proxy http://sithbotmodemanagerservice-finalproduction.up.railway.app {
             header_up Host sithbotmodemanagerservice-finalproduction.up.railway.app
             header_up X-Forwarded-Proto https
             transport http {
@@ -73,7 +75,7 @@ https://mindlink.cc, https://app.mindlink.cc {
     }
 
     handle /memory* {
-        reverse_proxy https://sithpythonservices.railway.internal:443 {
+        reverse_proxy http://sithpythonservices.railway.internal:443 {
             header_up Host sithpythonservices.railway.internal
             header_up X-Forwarded-Proto https
             transport http {
